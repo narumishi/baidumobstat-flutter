@@ -14,6 +14,11 @@
 - (void)handleMethodCall:(FlutterMethodCall *)call result:(FlutterResult)result {
   if ([@"getPlatformVersion" isEqualToString:call.method]) {
     result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
+  } else if ([call.method isEqualToString:@"start"]) {
+     NSString *appId = [self validArgument:call.arguments];
+     [BaiduMobStat defaultStat].enableDebugOn = YES;
+     [[BaiduMobStat defaultStat] startWithAppId:appId];
+     result(nil);
   } else if ([call.method isEqualToString:@"logEvent"]) {
       NSString *eventId = call.arguments[0];
       NSDictionary *attributes = [self validArgument:call.arguments[1]];

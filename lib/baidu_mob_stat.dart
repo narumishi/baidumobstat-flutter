@@ -6,6 +6,10 @@ class BaiduMobStatFlutter {
   static const MethodChannel _channel =
       const MethodChannel('baidu_mob_stat');
 
+  static void start(String appId) {
+    _channel.invokeMethod('start', appId);
+  }
+
   static Future<String> get platformVersion async {
     final String version = await _channel.invokeMethod('getPlatformVersion');
     return version;

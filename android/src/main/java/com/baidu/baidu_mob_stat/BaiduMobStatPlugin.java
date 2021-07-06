@@ -49,6 +49,13 @@ public class BaiduMobStatPlugin implements FlutterPlugin, MethodCallHandler {
 
                 // 系统版本
                 result.success("Android " + android.os.Build.VERSION.RELEASE);
+            } else if (call.method.equals("start")) {
+
+                // 启动
+                String appId = call.arguments.toString();
+                StatService.setDebugOn(true);
+                StatService.setAppKey(appId);
+                StatService.start(mContext);
             } else if (call.method.equals("logEvent")) {
 
                 // 普通事件
