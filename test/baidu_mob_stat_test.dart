@@ -18,6 +18,6 @@ void main() {
   });
 
   test('getPlatformVersion', () async {
-    expect(await BaiduMobStat.platformVersion, '42');
+    expect(await BaiduMobStatFlutter.platformVersion, '42');
   });
 }

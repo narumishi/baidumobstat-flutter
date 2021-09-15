@@ -52,8 +52,17 @@ public class BaiduMobStatPlugin implements FlutterPlugin, MethodCallHandler {
             } else if (call.method.equals("start")) {
 
                 // 启动
-                String appId = call.arguments.toString();
-                StatService.setDebugOn(true);
+                JSONObject jsonObject = new JSONObject(call.arguments.toString());
+                String appId = jsonObject.getString("appId");
+                boolean debug = jsonObject.optBoolean("debug", false);
+                int delay = jsonObject.optInt("delay", 0);
+                int session = jsonObject.optInt("session", 30);
+                boolean browseMode = jsonObject.optBoolean("browseMode", false);
+
+                StatService.setDebugOn(debug);
+                StatService.setLogSenderDelayed(delay);
+                StatService.setSessionTimeOut(session);
+                StatService.browseMode(browseMode);
                 StatService.setAppKey(appId);
                 StatService.start(mContext);
             } else if (call.method.equals("logEvent")) {

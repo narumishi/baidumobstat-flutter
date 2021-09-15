@@ -15,10 +15,18 @@
   if ([@"getPlatformVersion" isEqualToString:call.method]) {
     result([@"iOS " stringByAppendingString:[[UIDevice currentDevice] systemVersion]]);
   } else if ([call.method isEqualToString:@"start"]) {
-     NSString *appId = [self validArgument:call.arguments];
-     [BaiduMobStat defaultStat].enableDebugOn = YES;
-     [[BaiduMobStat defaultStat] startWithAppId:appId];
-     result(nil);
+    NSDictionary *arguments = [call arguments];
+    NSString *appId = arguments[@"appId"];
+    NSNumber *debug=arguments[@"debug"] ;
+    // NSNumber *delay=call.arguments[@"delay"];
+    NSNumber *session=call.arguments[@"session"];
+    NSNumber *browseMode=call.arguments[@"browseMode"];
+
+    [BaiduMobStat defaultStat].enableDebugOn = debug.boolValue;
+    [[BaiduMobStat defaultStat] setSessionResumeInterval:session.intValue];
+    [[BaiduMobStat defaultStat] setBrowseMode:browseMode.boolValue];
+    [[BaiduMobStat defaultStat] startWithAppId:appId];
+    result(nil);
   } else if ([call.method isEqualToString:@"logEvent"]) {
       NSString *eventId = call.arguments[0];
       NSDictionary *attributes = [self validArgument:call.arguments[1]];
